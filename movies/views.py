@@ -46,3 +46,4 @@ class MovieUpdateView(generics.UpdateAPIView):
 class PostDeleteView(generics.DestroyAPIView):
     queryset = Movie.objects.all()
     serializer_class = PostSerializer
+# test
