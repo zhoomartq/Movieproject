@@ -33,10 +33,11 @@ __pycache__/
 *.so
 .idea/
 .vscode/
-venv/
+
 
 # Distribution / packaging
 .Python
+venv/
 env/
 build/
 develop-eggs/
