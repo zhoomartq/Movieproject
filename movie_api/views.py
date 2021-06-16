@@ -107,6 +107,7 @@ class MovieViewSet(PermissionMixinMovie, viewsets.ModelViewSet):
     def search(self, request, pk=None):
         q = request.query_params.get('q', '')
         # q = request.GET.get('q', None)
+        print('hello')
         queryset = self.get_queryset()
         print(queryset)
         queryset = queryset.filter(Q(title__icontains=q) | Q(id__icontains=q))
