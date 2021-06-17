@@ -46,7 +46,7 @@ class MovieSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context.get('request')
         images_data = request.FILES
-        user = request.user.profile_designer
+        user = request.user.profile_producer
         product = Movie.objects.create(author=user, **validated_data)
         for image in images_data.getlist('images'):
             Image.objects.create(product=product, image=image)

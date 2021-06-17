@@ -63,7 +63,7 @@ class PermissionMixinReview:
 
 
 
-class MovieViewSet(PermissionMixinMovie, viewsets.ModelViewSet):
+class MovieViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     pagination_class = PaginationMovie
