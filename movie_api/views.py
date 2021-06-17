@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.migrations import serializer
 from django.shortcuts import render
 from rest_framework import generics, viewsets, status
@@ -6,7 +7,7 @@ from rest_framework.permissions import AllowAny
 # from rest_framework.views import APIView
 from .models import Category, Movie, Review, Like, Favorite, Basket
 from .serializers import CategoryListSerializer, MovieSerializer, ReviewSerializer, \
-    CategoryDetailSerializer, FavoriteSerializer, BasketSerializer
+    CategoryDetailSerializer, FavoriteSerializer, BasketSerializer, LikeSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.db.models import Q
@@ -69,6 +70,7 @@ class MovieViewSet(PermissionMixinMovie, viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['category', ]
 
+    # @login_required
     @action(detail=True, methods=['post'])
     def like(self, request, pk=None):
         movie = self.get_object()
@@ -134,6 +136,16 @@ class ReviewViewSet(PermissionMixinReview, viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     pagination_class = PaginationReview
+
+
+class LikeCreateListView(generics.ListAPIView):
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+
+    def get_queryset(self):
+        qs = self.request.user.profile_customer
+        queryset = Favorite.objects.filter(user=qs, like=True)
+        return queryset
 
 class FavoriteListView(generics.ListAPIView):
     queryset = Favorite.objects.all()
